@@ -18,7 +18,7 @@ jobs:
         run: |
           brachName=$GITHUB_BASE_REF
           parts=(${brachName//\// })
-          feature=${parts[-1]} 
+          feature=${parts[-1]}
           echo "feature=$feature" >> $GITHUB_OUTPUT
 
     outputs:
