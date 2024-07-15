@@ -32,6 +32,8 @@ jobs:
     secrets: inherit
 
   terraform_environment:
+    # Currently a dependency because we don't have enough VPC(s)
+    needs: [determine_feature_name]
     uses: ./.github/workflows/terraform-environment.yml
     secrets: inherit
     with:
