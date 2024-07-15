@@ -9,9 +9,7 @@ We follow a similar branching strategy as Git Flow, except we have additional QA
 - main
   - qa
     - dev
-      - DFN-XXXX-TX-feature_description
-        - DFN-XXXX -- is the epic ticket number for the feature your team is working on
-        - TX -- is your Team's initial, eg. T1, T2, T3 or T4.
+      - feature/DFN-XXXX-TX-feature_description
 
 ## To begin work on a new Feature
 
