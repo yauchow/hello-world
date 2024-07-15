@@ -1,0 +1,32 @@
+name: feature branch pr
+
+on:
+  pull_request:
+    branches: ["feature/*"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  determine_feature_name:
+    runs-on: [ubuntu-latest]
+
+    steps:
+      - name: Get feature name
+        id: get_branch_name
+        run: |
+          brachName=$GITHUB_BASE_REF
+          parts=(${brachName//\// })
+          feature=${parts[-1]} 
+          echo "feature=$feature" >> $GITHUB_OUTPUT
+
+    outputs:
+      enironment: ${{steps.get_branch_name.outputs.feature}}
+
+  terraform_environment:
+    needs: [determine_feature_name]
+    uses: ./.github/workflows/terraform-environment.yml
+    secrets: inherit
+    with:
+      environment: ${{needs.determine_feature_name.outputs.enironment}}

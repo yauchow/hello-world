@@ -1,0 +1,39 @@
+name: terraform-environment.yml
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        description: values should be prod, qa, dev or adhoc environment name for special feature development, such as integration-xyz
+
+jobs:
+  terraform-environment:
+    runs-on: [ubuntu-latest]
+    env:
+      AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform init
+        run: |
+          terraform init
+
+      - name: Change terraform workspace for environment
+        run: |
+          terraform workspace select -or-create=true ${{inputs.environment}}
+          terraform refresh
+
+      - name: Terraform plan
+        run: |
+          terraform plan -out tf.plan
+
+      - name: Terraform apply
+        run: |
+          terraform apply tf.plan
