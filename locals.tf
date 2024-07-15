@@ -1,5 +1,5 @@
 locals {
-    environment = "Definitiv-${terraform.workspace}"
+  environment = "Definitiv-${terraform.workspace}"
 
-    webapp_image_tag = "latest"
+  webapp_image_tag = "latest"
 }
