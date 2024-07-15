@@ -20,4 +20,9 @@ resource "aws_security_group" "environment_http_security_group" {
     to_port     = 80
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name        = "${local.environment}-http-security-group"
+    Environment = local.environment
+  }
 }

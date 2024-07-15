@@ -4,7 +4,8 @@ resource "aws_subnet" "private_subnet" {
   cidr_block = "10.0.201.0/24"
 
   tags = {
-    Name = "${local.environment}-private-subnet"
+    Name        = "${local.environment}-private-subnet"
+    Environment = local.environment
   }
 }
 
