@@ -4,7 +4,7 @@ resource "aws_subnet" "private_subnet" {
   cidr_block = "10.0.201.0/24"
 
   tags = {
-    Name = "Defintiv-${terraform.workspace}-private-subnet"
+    Name = "${local.environment}-private-subnet"
   }
 }
 
@@ -17,8 +17,8 @@ resource "aws_subnet" "subnet_a" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "Defintiv-${terraform.workspace}-subnet-a"
-    Application = "Defintitiv-${terraform.workspace}"
+    Name        = "${local.environment}-subnet-a"
+    Environment = local.environment
   }
 }
 
@@ -38,8 +38,8 @@ resource "aws_subnet" "subnet_b" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "Defintiv-${terraform.workspace}-subnet-b"
-    Application = "Defintitiv-${terraform.workspace}"
+    Name        = "${local.environment}-subnet-b"
+    Environment = local.environment
   }
 }
 

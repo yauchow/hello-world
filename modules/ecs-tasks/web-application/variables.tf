@@ -1,3 +1,8 @@
+variable "environment" {
+  description = "The environment name, used to help name and tag resources created"
+  type        = string
+}
+
 variable "vpc" {
   description = "The VPC"
   type        = string

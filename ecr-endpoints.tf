@@ -1,6 +1,6 @@
 resource "aws_security_group" "aws_resources_security_group" {
   depends_on  = [aws_vpc.vpc]
-  name        = "Defintitiv-${terraform.workspace}-AwsResourceSecurityGroup"
+  name        = "${local.environment}-AwsResourceSecurityGroup"
   description = "Gives task definitions the required network access to connect to aws resources such as ECR"
   vpc_id      = aws_vpc.vpc.id
 
@@ -19,8 +19,8 @@ resource "aws_security_group" "aws_resources_security_group" {
   }
 
   tags = {
-    Name        = "Defintitiv-${terraform.workspace}"
-    Application = "Defintitiv-${terraform.workspace}"
+    Name        = local.environment
+    Environment = local.environment
   }
 }
 
@@ -47,8 +47,8 @@ resource "aws_vpc_endpoint" "ecr_api_interface_endpoint" {
   ]
 
   tags = {
-    Name        = "Defintitiv-${terraform.workspace}-ecr-api-endpoint"
-    Application = "Defintitiv-${terraform.workspace}"
+    Name        = "${local.environment}-ecr-api-endpoint"
+    Environment = local.environment
   }
 }
 
@@ -75,7 +75,7 @@ resource "aws_vpc_endpoint" "ecr_docker_interface_endpoint" {
   ]
 
   tags = {
-    Name        = "Defintitiv-${terraform.workspace}-ecr-dkr-endpoint"
-    Application = "Defintitiv-${terraform.workspace}"
+    Name        = "${local.environment}-ecr-dkr-endpoint"
+    Environment = local.environment
   }
 }
