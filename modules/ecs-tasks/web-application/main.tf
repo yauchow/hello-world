@@ -1,9 +1,16 @@
+locals {
+  full_service_name = "${var.environment}-${var.service_name}"
+
+  container_definition_name = "${var.environment}-${var.service_name}-container-definition"
+}
+
 resource "aws_lb" "webapp_loadbalancer" {
   name            = replace("${substr(var.environment, 0, 21)}-webapp-elb", "/[^a-zA-Z-0-9\\-]/", "-")
   ip_address_type = "ipv4"
   security_groups = [var.ecr_security_group]
   subnets         = var.subnets
   tags = {
+    Name        = local.full_service_name
     Environment = var.environment
   }
 }
@@ -22,6 +29,7 @@ resource "aws_lb_target_group" "webapp_loadbalancer_target_group" {
   vpc_id      = var.vpc
 
   tags = {
+    Name        = local.full_service_name
     Environment = var.environment
   }
 }
@@ -38,11 +46,20 @@ resource "aws_lb_listener" "webapp_loadbalancer_listener" {
   port              = var.port
   protocol          = "HTTP"
 
+  tags = {
+    Name        = local.full_service_name
+    Environment = var.environment
+  }
 }
 
 resource "aws_cloudwatch_log_group" "webapp_log_group" {
   name              = "/ecs/${terraform.workspace}/${var.service_name}"
   retention_in_days = 7
+
+  tags = {
+    Name        = local.full_service_name
+    Environment = var.environment
+  }
 }
 
 resource "aws_ecs_task_definition" "webapp_task_definition" {
@@ -50,7 +67,7 @@ resource "aws_ecs_task_definition" "webapp_task_definition" {
   container_definitions = jsonencode([
     {
       # Must match container name used in Load Balancer
-      name        = "${var.environment}-${var.service_name}-container-definition"
+      name        = local.container_definition_name
       image       = var.container_image
       environment = var.environment_variables
       portMappings = [
@@ -83,6 +100,7 @@ resource "aws_ecs_task_definition" "webapp_task_definition" {
   }
 
   tags = {
+    Name        = local.full_service_name
     Environment = var.environment
   }
 }
@@ -96,7 +114,7 @@ resource "aws_ecs_service" "webapp_service" {
 
   load_balancer {
     # Must match container name used in Task Definition
-    container_name   = "${var.environment}-${var.service_name}-container-definition"
+    container_name   = local.container_definition_name
     container_port   = var.port
     target_group_arn = aws_lb_target_group.webapp_loadbalancer_target_group.arn
   }
@@ -110,5 +128,10 @@ resource "aws_ecs_service" "webapp_service" {
     ]
 
     subnets = var.subnets
+  }
+
+  tags = {
+    Name        = local.full_service_name
+    Environment = var.environment
   }
 }
