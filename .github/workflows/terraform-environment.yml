@@ -21,13 +21,13 @@ jobs:
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform init
-        run: |
-          terraform init
-
       - name: Change terraform workspace for environment
         run: |
           terraform workspace new ${{inputs.environment}}
+
+      - name: Terraform init
+        run: |
+          terraform init
 
       - name: Terraform plan
         run: |
