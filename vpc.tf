@@ -1,7 +1,7 @@
 resource "aws_internet_gateway" "internet_gateway" {
   tags = {
-    Name        = "Defintitiv-${terraform.workspace}"
-    Application = "Defintitiv-${terraform.workspace}"
+    Name        = local.environment
+    Environment = local.environment
   }
 }
 
@@ -14,8 +14,8 @@ resource "aws_vpc" "vpc" {
   instance_tenancy     = "default"
 
   tags = {
-    Name        = "Defintitiv-${terraform.workspace}"
-    Application = "Defintitiv-${terraform.workspace}"
+    Name        = local.environment
+    Environment = local.environment
   }
 }
 
@@ -33,8 +33,8 @@ resource "aws_route_table" "public_route_table" {
 
   vpc_id = aws_vpc.vpc.id
   tags = {
-    Name        = "Defintitiv-${terraform.workspace}-public-route-table"
-    Application = "Defintitiv-${terraform.workspace}"
+    Name        = local.environment
+    Environment = local.environment
   }
 }
 

@@ -1,6 +1,6 @@
 # IAM role required for an ECS Service to start a new task definition
 resource "aws_iam_role" "task_definition_provisioning_role" {
-  name = "Definitiv-${terraform.workspace}-task-defintition-provisioning-role"
+  name = "${substr(local.environment, 0, 29)}-task-defintition-provisioning-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -15,12 +15,12 @@ resource "aws_iam_role" "task_definition_provisioning_role" {
   })
 
   tags = {
-    Application = "Defintitiv-${terraform.workspace}"
+    Environment = local.environment
   }
 }
 
 resource "aws_iam_role_policy" "task_definition_provisioning_role_policy" {
-  name = "Definitiv-${terraform.workspace}-webapp-task-role-ecr-permissions"
+  name = "${substr(local.environment, 0, 13)}-task-defintition-provisioning-role-ecr-permissions"
   role = aws_iam_role.task_definition_provisioning_role.id
   policy = jsonencode({
     Version = "2012-10-17"

@@ -1,6 +1,6 @@
 # A role that defines the permissions required for the web application to run
 resource "aws_iam_role" "webapp_execution_role" {
-  name = "Definitiv-${terraform.workspace}-webapp-execution-role"
+  name = "${local.environment}-webapp-execution-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -18,15 +18,16 @@ resource "aws_iam_role" "webapp_execution_role" {
   ]
 
   tags = {
-    Application = "Defintitiv-${terraform.workspace}"
+    Environment = local.environment
   }
 }
 
 module "web_application" {
   source = "./modules/ecs-tasks/web-application"
 
+  environment         = local.environment
   service_name        = "webapp"
-  container_image     = "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/hello-world:${var.webapp_tag}"
+  container_image     = "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/hello-world:${local.webapp_image_tag}"
   subnets             = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
   execution_role_arn  = aws_iam_role.webapp_execution_role.arn
   task_role_arn       = aws_iam_role.task_definition_provisioning_role.arn
