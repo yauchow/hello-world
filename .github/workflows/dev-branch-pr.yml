@@ -24,7 +24,7 @@ jobs:
     outputs:
       enironment: ${{steps.get_branch_name.outputs.feature}}
 
-  tear_down-feature:
+  tear-down-feature:
     needs: [determine_feature_name]
     uses: ./.github/workflows/tear-down-feature-environment.yml
     with:
@@ -33,7 +33,7 @@ jobs:
 
   terraform_environment:
     # Currently a dependency because we don't have enough VPC(s)
-    needs: [determine_feature_name]
+    needs: [tear-down-feature]
     uses: ./.github/workflows/terraform-environment.yml
     secrets: inherit
     with:
