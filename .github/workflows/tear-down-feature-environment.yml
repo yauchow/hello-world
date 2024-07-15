@@ -1,11 +1,7 @@
-name: terraform-environment.yml
+name: tear-down-feature-environment
 
 on:
   workflow_call:
-    inputs:
-      environment:
-        type: string
-        description: values should be prod, qa, dev or adhoc environment name for special feature development, such as integration-xyz
 
 jobs:
   terraform-environment:
@@ -15,6 +11,14 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
 
     steps:
+      - name: Get feature name
+        id: get_branch_name
+        run: |
+          brachName=$GITHUB_BASE_REF
+          parts=(${brachName//\// })
+          feature=${parts[-1]}
+          echo "feature=$feature" >> $GITHUB_OUTPUT
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -27,12 +31,8 @@ jobs:
 
       - name: Change terraform workspace for environment
         run: |
-          terraform workspace select -or-create=true ${{inputs.environment}}
+          terraform workspace select ${{steps.get_branch_name.feature}} || terraform workspace new ${{steps.get_branch_name.feature}}
 
-      - name: Terraform plan
+      - name: Terraform destroy
         run: |
-          terraform plan -out tf.plan
-
-      - name: Terraform apply
-        run: |
-          terraform apply tf.plan
+          terraform destroy

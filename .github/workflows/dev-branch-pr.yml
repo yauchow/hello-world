@@ -9,6 +9,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  tear_down-feature:
+    uses: ./.github/workflows/tear-down-feature-environment.yml
+    secrets: inherit
+
   terraform_environment:
     uses: ./.github/workflows/terraform-environment.yml
     secrets: inherit
