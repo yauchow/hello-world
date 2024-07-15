@@ -9,8 +9,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  determine_feature_name:
+    runs-on: [ubuntu-latest]
+
+    steps:
+      - name: Get feature name
+        id: get_branch_name
+        run: |
+          brachName=$GITHUB_BASE_REF
+          parts=(${brachName//\// })
+          feature=${parts[-1]} 
+          echo "feature=$feature" >> $GITHUB_OUTPUT
+
+    outputs:
+      enironment: ${{steps.get_branch_name.outputs.feature}}
+
   tear_down-feature:
+    needs: [determine_feature_name]
     uses: ./.github/workflows/tear-down-feature-environment.yml
+    with:
+      environment: ${{needs.determine_feature_name.outputs.enironment}}
     secrets: inherit
 
   terraform_environment:
