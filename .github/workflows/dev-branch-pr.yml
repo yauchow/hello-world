@@ -1,0 +1,16 @@
+name: dev branch pr
+
+on:
+  pull_request:
+    branches: ["dev"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  terraform_environment:
+    uses: ./.github/workflows/terraform-environment.yml
+    secrets: inherit
+    with:
+      environment: "dev"
