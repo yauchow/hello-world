@@ -16,7 +16,7 @@ jobs:
       - name: Get feature name
         id: get_branch_name
         run: |
-          brachName=$GITHUB_BASE_REF
+          brachName=$GITHUB_REF
           parts=(${brachName//\// })
           feature=${parts[-1]} 
           echo "feature=$feature" >> $GITHUB_OUTPUT
