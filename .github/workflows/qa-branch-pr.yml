@@ -1,0 +1,16 @@
+name: qa branch pr
+
+on:
+  pull_request:
+    branches: ["qa"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  terraform_environment:
+    uses: ./.github/workflows/terraform-environment.yml
+    secrets: inherit
+    with:
+      environment: "qa"

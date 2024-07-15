@@ -1,0 +1,1 @@
+# Intentionally left blank, see vpc.tf for the root resources created, which will be the Internet Gateway and VPC
