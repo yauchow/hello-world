@@ -1,5 +1,4 @@
 resource "aws_lb" "webapp_loadbalancer" {
-
   name            = replace("${substr(var.environment, 0, 21)}-webapp-elb", "/[^a-zA-Z-0-9\\-]/", "-")
   ip_address_type = "ipv4"
   security_groups = [var.ecr_security_group]
