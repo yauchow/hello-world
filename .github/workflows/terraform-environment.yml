@@ -27,7 +27,7 @@ jobs:
 
       - name: Change terraform workspace for environment
         run: |
-          terraform workspace new ${{inputs.environment}}
+          terraform workspace select ${{inputs.environment}} || terraform workspace new ${{inputs.environment}}
 
       - name: Terraform plan
         run: |
