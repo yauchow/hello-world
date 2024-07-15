@@ -25,7 +25,7 @@ resource "aws_iam_role" "webapp_execution_role" {
 module "web_application" {
   source = "./modules/ecs-tasks/web-application"
 
-  environment = local.environment
+  environment         = local.environment
   service_name        = "webapp"
   container_image     = "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/hello-world:${local.webapp_image_tag}"
   subnets             = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]

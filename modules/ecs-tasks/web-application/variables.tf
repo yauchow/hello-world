@@ -1,6 +1,6 @@
 variable "environment" {
   description = "The environment name, used to help name and tag resources created"
-  type = string
+  type        = string
 }
 
 variable "vpc" {
