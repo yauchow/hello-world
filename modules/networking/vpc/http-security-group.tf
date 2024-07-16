@@ -1,7 +1,5 @@
 resource "aws_security_group" "environment_http_security_group" {
-  depends_on = [aws_vpc.vpc]
-
-  name        = "${local.environment}-http-security-group"
+  name        = "${var.environment}-http-security-group"
   description = "Http access on port 80 for the environment"
 
   vpc_id = aws_vpc.vpc.id
@@ -22,7 +20,7 @@ resource "aws_security_group" "environment_http_security_group" {
   }
 
   tags = {
-    Name        = "${local.environment}-http-security-group"
-    Environment = local.environment
+    Name        = "${var.environment}-http-security-group"
+    Environment = var.environment
   }
 }

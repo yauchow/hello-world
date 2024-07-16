@@ -1,6 +1,6 @@
 # A role that defines the permissions required for the web application to run
 resource "aws_iam_role" "webapp_execution_role" {
-  name = "${local.environment}-webapp-execution-role"
+  name = "${substr(local.environment, 0, 42)}-webapp-execution-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -28,13 +28,13 @@ module "web_application" {
   environment         = local.environment
   service_name        = "webapp"
   container_image     = "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/hello-world:${local.webapp_image_tag}"
-  subnets             = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
+  subnets             = module.vpc.public_subnets
   execution_role_arn  = aws_iam_role.webapp_execution_role.arn
-  task_role_arn       = aws_iam_role.task_definition_provisioning_role.arn
-  ecs_cluster         = aws_ecs_cluster.environment_ecs_cluster.id
-  vpc                 = aws_vpc.vpc.id
-  ecr_security_group  = aws_security_group.aws_resources_security_group.id
-  http_security_group = aws_security_group.environment_http_security_group.id
+  task_role_arn       = module.vpc.task_definition_provisioning_role_arn
+  ecs_cluster         = module.vpc.ecs_cluster_id
+  vpc                 = module.vpc.id
+  ecr_security_group  = module.vpc.aws_resources_security_group_id
+  http_security_group = module.vpc.http_security_group_id
   environment_variables = [
     {
       name  = "ASPNETCORE_URLS"

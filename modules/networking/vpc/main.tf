@@ -1,21 +1,21 @@
 resource "aws_internet_gateway" "internet_gateway" {
   tags = {
-    Name        = local.environment
-    Environment = local.environment
+    Name        = var.environment
+    Environment = var.environment
   }
 }
 
 resource "aws_vpc" "vpc" {
   depends_on = [aws_internet_gateway.internet_gateway]
 
-  cidr_block           = "10.0.0.0/16"
+  cidr_block           = var.cidr_block
   enable_dns_hostnames = true
   enable_dns_support   = true
   instance_tenancy     = "default"
 
   tags = {
-    Name        = local.environment
-    Environment = local.environment
+    Name        = var.environment
+    Environment = var.environment
   }
 }
 
@@ -33,8 +33,8 @@ resource "aws_route_table" "public_route_table" {
 
   vpc_id = aws_vpc.vpc.id
   tags = {
-    Name        = local.environment
-    Environment = local.environment
+    Name        = var.environment
+    Environment = var.environment
   }
 }
 
@@ -44,4 +44,12 @@ resource "aws_route" "default_public_route" {
   route_table_id         = aws_route_table.public_route_table.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.internet_gateway.id
+}
+
+module "aws_resources_security_group" {
+  source = "../aws-resources-security-group"
+
+  environment = var.environment
+  vpc         = aws_vpc.vpc.id
+  subnets     = [module.subnet_a.id, module.subnet_b.id]
 }
