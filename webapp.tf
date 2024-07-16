@@ -1,6 +1,6 @@
 # A role that defines the permissions required for the web application to run
 resource "aws_iam_role" "webapp_execution_role" {
-  name = "${local.environment}-webapp-execution-role"
+  name = "${substr(local.environment, 0, 42)}-webapp-execution-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
