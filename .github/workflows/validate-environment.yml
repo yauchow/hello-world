@@ -1,4 +1,4 @@
-name: tear-down-feature-environment
+name: terraform-environment.yml
 
 on:
   workflow_call:
@@ -7,14 +7,8 @@ on:
         type: string
         description: values should be prod, qa, dev or adhoc environment name for special feature development, such as integration-xyz
 
-  workflow_dispatch:
-    inputs:
-      environment:
-        type: string
-        description: values should be prod, qa, dev or adhoc environment name for special feature development, such as integration-xyz
-
 jobs:
-  terraform-environment:
+  validate-environment:
     runs-on: [ubuntu-latest]
     env:
       AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
@@ -27,19 +21,11 @@ jobs:
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform init
+      - name: Terraform Environment
+        working-directory: ./infrastructure
         run: |
           terraform init
-
-      - name: Change terraform workspace for environment
-        run: |
           terraform workspace select -or-create=true ${{inputs.environment}}
-
-      - name: Terraform destroy
-        run: |
-          terraform destroy -auto-approve
-
-      - name: Terraform cleanup workspace
-        run: |
-          terraform workspace select default
-          terraform workspace delete ${{inputs.environment}}
+          terraform refresh
+          terraform validate
+          terraform plan

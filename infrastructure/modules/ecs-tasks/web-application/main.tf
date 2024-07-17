@@ -108,7 +108,7 @@ resource "aws_ecs_task_definition" "webapp_task_definition" {
 
 resource "aws_ecs_service" "webapp_service" {
   name            = "${var.environment}-${var.service_name}-service"
-  cluster         = var.ecs_cluster
+  cluster         = var.ecs_cluster.id
   desired_count   = 1
   launch_type     = "FARGATE"
   task_definition = aws_ecs_task_definition.webapp_task_definition.id

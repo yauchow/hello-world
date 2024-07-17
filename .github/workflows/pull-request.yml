@@ -1,0 +1,21 @@
+name: main branch pr
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate_dev:
+    uses: ./.github/workflows/validate-environment.yml
+    secrets: inherit
+    with:
+      environment: "dev"
+
+  validate_qa:
+    uses: ./.github/workflows/validate-environment.yml
+    secrets: inherit
+    with:
+      environment: "qa"

@@ -1,0 +1,10 @@
+container:
+  image: 306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/hello-world
+  tag: latest
+
+autoscaling:
+  min_capacity: 1
+  max_capacity: 99
+
+  cpu_utilization: 80
+  memory_utilization: 80
