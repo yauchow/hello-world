@@ -1,0 +1,5 @@
+container:
+  tag: latest
+
+autoscaling:
+  max_capacity: 10

@@ -19,8 +19,8 @@ output "http_security_group_id" {
   description = "Security group that allows access from HTTP port 80"
 }
 
-output "ecs_cluster_id" {
-  value = aws_ecs_cluster.environment_ecs_cluster.id
+output "ecs_cluster" {
+  value = aws_ecs_cluster.environment_ecs_cluster
 }
 
 output "task_definition_provisioning_role_id" {

@@ -33,7 +33,9 @@ variable "health_check_path" {
 
 variable "ecs_cluster" {
   description = "The ecs cluster id"
-  type        = string
+  type = object({
+    id = string
+  })
 }
 
 variable "subnets" {
