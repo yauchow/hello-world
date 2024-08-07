@@ -9,11 +9,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # terraform_dev:
-  #   uses: ./.github/workflows/terraform-environment.yml
-  #   secrets: inherit
-  #   with:
-  #     environment: "dev"
+  terraform_dev:
+    uses: ./.github/workflows/terraform-environment.yml
+    secrets: inherit
+    with:
+      environment: "dev"
 
   terraform_qa:
     uses: ./.github/workflows/terraform-environment.yml
