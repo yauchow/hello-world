@@ -1,0 +1,5 @@
+container:
+  image: redis
+  tag: alpine
+  container_port: 6379
+  host_port: 6379

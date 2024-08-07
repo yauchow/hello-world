@@ -1,0 +1,14 @@
+autoscaling:
+  max_capacity: 10
+
+  scale_out:
+    cpu_utilization: 80
+    memory_utilization: 80
+    cooldown: 60
+    period: 60
+
+  scale_in:
+    cpu_utilization: 10
+    memory_utilization: 10
+    cooldown: 60
+    period: 60
