@@ -1,7 +1,7 @@
 module "private_network" {
   source = "../private-network"
 
-  region = var.region
+  region             = var.region
   environment        = var.environment
   vpc                = aws_vpc.vpc
   availability_zones = local.availability_zones

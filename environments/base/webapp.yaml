@@ -1,7 +1,20 @@
 container:
   image: 306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/helloapi
-  tag: 974545ca7bc47a4738726042f536fee968985df5
-  environment_variables: []
+  tag: 8e927226bb791b04d89adb4c6da3ebd47cf904a5
+  environment_variables:
+    - name: Tenants__0__Domain
+      value: client1.definitiv-v2-poc.definitiv.com.au
+    - name: Tenants__0__Name
+      value: client1
+    - name: Tenants__0__Database
+      value: client1
+
+    - name: Tenants__1__Domain
+      value: client2.definitiv-v2-poc.definitiv.com.au
+    - name: Tenants__1__Name
+      value: client2
+    - name: Tenants__1__Database
+      value: client2
 
 autoscaling:
   min_capacity: 1

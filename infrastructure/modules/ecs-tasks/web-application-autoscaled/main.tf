@@ -5,7 +5,7 @@ module "web_application" {
   environment     = var.environment
   service_name    = var.service_name
   container_image = "${var.config[var.service_name].container.image}:${var.config[var.service_name].container.tag}"
-  task_role_arn = var.task_role_arn
+  task_role_arn   = var.task_role_arn
   environment_variables = concat(
     try(var.config[var.service_name].container.environment_variables, []),
     var.environment_variables

@@ -65,8 +65,12 @@ module "webapp" {
       value = "${terraform.workspace}"
     },
     {
-      name = "MessageQueue__Sqs__Region"
+      name  = "MessageQueue__Sqs__Region"
       value = module.vpc.region
-    }
+    },
+    {
+      name  = "ConnectionStrings__Default"
+      value = module.database.connection_string
+    },
   ]
 }

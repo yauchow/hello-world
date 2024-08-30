@@ -7,7 +7,7 @@ module "vpc" {
   cidr_block = "10.0.0.0/16"
 
   region = "ap-southeast-2"
-  
+
   availability_zones = [
     "ap-southeast-2a",
     "ap-southeast-2b",
